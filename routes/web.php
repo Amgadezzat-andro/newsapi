@@ -23,10 +23,7 @@ Route::get('/', function () {
 });
 
 
-Route::get('/categories',function(){
-    $user = User::all();
-    return $user;
-});
+
 
 Auth::routes();
 
