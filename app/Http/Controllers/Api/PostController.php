@@ -106,7 +106,7 @@ class PostController extends Controller
     {
 
 
-        $post = Post::find($id);
+        $post = Post::with(['comments','author','category'])->where('id', $id)->get();
         return new PostResource($post);
     }
 
@@ -133,8 +133,8 @@ class PostController extends Controller
         if ($request->has('category_id')) {
 
             if (intval($request->get('category_id')) != 0) {
-            $post->category_id = intval($request->get('category_id'));
-        }
+                $post->category_id = intval($request->get('category_id'));
+            }
         }
 
 
