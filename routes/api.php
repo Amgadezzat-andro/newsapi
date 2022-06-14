@@ -32,6 +32,8 @@ Route::get('comments/posts/{id}','App\Http\Controllers\Api\PostController@commen
 
 
 
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
