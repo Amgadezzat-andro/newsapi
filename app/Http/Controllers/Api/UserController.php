@@ -55,9 +55,6 @@ class UserController extends Controller
      */
     public function show($id)
     {
-
-
-
         return new UserResource(User::find($id));
     }
 
@@ -92,6 +89,37 @@ class UserController extends Controller
         if ($request->has('avatar')) {
             $user->avatar = $request->get('avatar');
         }
+
+          //handle upload image
+          if ($request->hasFile('avatar')) {
+            // $featuredImage = $request->file('avatar');
+            // $fileName = time() . $featuredImage->getClientOriginalName();
+            // $path = url('/') . '/public/images/' . $fileName;
+            // $path = public_path('/images/');
+            // Storage::disk()->putFileAs(
+            //     $path,
+            //     $featuredImage,
+            //     $fileName
+            // );
+            // $user->featured_image = $path;
+
+
+
+
+            // $file= $request->file('featured_image');
+            // $filename= date('YmdHi').$file->getClientOriginalName();
+            // $file-> move(public_path('public/images'), $filename);
+            // $data['name']= $filename;
+            // $data->save();
+
+
+            // $post->featured_image = $data['name'];
+
+
+
+
+        }
+
         $user->save();
         return new UserResource($user);
     }
