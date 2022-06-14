@@ -36,6 +36,6 @@ Route::post('token','App\Http\Controllers\Api\UserController@getToken');
 
 
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->group(function(){
+    Route::post('update-user/{id}','App\Http\Controllers\Api\UserController@update');
 });
