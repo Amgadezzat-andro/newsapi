@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AuthorCommentsResource;
 use App\Http\Resources\AuthorPostsResource;
+use App\Http\Resources\TokenResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UsersResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -43,7 +45,7 @@ class UserController extends Controller
     public function show($id)
     {
 
-        
+
 
         return new UserResource(User::find($id));
     }
@@ -52,17 +54,15 @@ class UserController extends Controller
     public function posts($id)
     {
         $user = User::find($id);
-        $posts= $user->posts()->paginate(env('POSTS_PER_PAGE'));
+        $posts = $user->posts()->paginate(env('POSTS_PER_PAGE'));
         return new AuthorPostsResource($posts);
-
     }
     //return user's comments
     public function comments($id)
     {
         $user = User::find($id);
-        $comments= $user->comments()->paginate(env('COMMENTS_PER_PAGE'));
+        $comments = $user->comments()->paginate(env('COMMENTS_PER_PAGE'));
         return new AuthorCommentsResource($comments);
-
     }
 
     /**
@@ -86,5 +86,21 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getToken(Request $request)
+    {
+        $request->validate(
+            [
+                'email' => 'required',
+                'password' => 'required',
+            ]
+        );
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            $user = User::where('email', $request->get('email'))->first();
+            return new TokenResource(['token' => $user->api_token]);
+        }
+        return 'not found';
     }
 }
