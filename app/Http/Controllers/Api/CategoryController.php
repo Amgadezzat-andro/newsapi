@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CategoriesResource;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\PostsResource;
 use App\Models\Category;
@@ -19,7 +19,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return new CategoryResource(Category::paginate(env('CATEGORIES_PER_PAGE')));
+        return new CategoriesResource(Category::paginate(env('CATEGORIES_PER_PAGE')));
     }
 
     /**

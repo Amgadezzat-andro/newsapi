@@ -8,6 +8,7 @@ use App\Http\Resources\PostResource;
 use App\Http\Resources\PostsResource;
 use App\Models\Photo;
 use App\Models\Post;
+use App\Models\Postimage;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -21,7 +22,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::paginate(env('POST_PER_PAGE'));
+        $posts = Post::with(['comments','author','category'])->paginate(env('POST_PER_PAGE'));
         return new PostsResource($posts);
     }
 
@@ -53,7 +54,7 @@ class PostController extends Controller
 
         //TODO handle featured image file upload
 
-        $data = new Photo();
+        $data = new Postimage();
 
         //handle upload image
         if ($request->hasFile('featured_image')) {
@@ -71,14 +72,14 @@ class PostController extends Controller
 
 
 
-            // $file= $request->file('featured_image');
-            // $filename= date('YmdHi').$file->getClientOriginalName();
-            // $file-> move(public_path('public/images'), $filename);
-            // $data['name']= $filename;
-            // $data->save();
+            $file= $request->file('featured_image');
+            $filename= public_path('images/').date('YmdHi').$file->getClientOriginalName();
+            $request->file('featured_image')->move(public_path('images'), $filename);
+            $data['image']= $filename;
+            $data->save();
 
 
-            // $post->featured_image = $data['name'];
+            $post->featured_image = $data['image'];
 
 
 
@@ -140,7 +141,7 @@ class PostController extends Controller
 
         //TODO handle featured image file upload
 
-        $data = new Photo();
+        $data = new Postimage();
 
         //handle upload image
         if ($request->hasFile('featured_image')) {
@@ -158,14 +159,14 @@ class PostController extends Controller
 
 
 
-            // $file= $request->file('featured_image');
-            // $filename= date('YmdHi').$file->getClientOriginalName();
-            // $file-> move(public_path('public/images'), $filename);
-            // $data['name']= $filename;
-            // $data->save();
+            $file= $request->file('featured_image');
+            $filename= public_path('images/').date('YmdHi').$file->getClientOriginalName();
+            $request->file('featured_image')->move(public_path('images'), $filename);
+            $data['image']= $filename;
+            $data->save();
 
 
-            // $post->featured_image = $data['name'];
+            $post->featured_image = $data['image'];
 
 
 

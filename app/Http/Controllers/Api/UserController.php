@@ -8,6 +8,7 @@ use App\Http\Resources\AuthorPostsResource;
 use App\Http\Resources\TokenResource;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\UsersResource;
+use App\Models\Postimage;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -91,6 +92,8 @@ class UserController extends Controller
         }
 
           //handle upload image
+          $data = new Postimage();
+
           if ($request->hasFile('avatar')) {
             // $featuredImage = $request->file('avatar');
             // $fileName = time() . $featuredImage->getClientOriginalName();
@@ -106,14 +109,14 @@ class UserController extends Controller
 
 
 
-            // $file= $request->file('featured_image');
-            // $filename= date('YmdHi').$file->getClientOriginalName();
-            // $file-> move(public_path('public/images'), $filename);
-            // $data['name']= $filename;
-            // $data->save();
+            $file= $request->file('avatar');
+            $filename= public_path('images/profile_images/').date('YmdHi').$file->getClientOriginalName();
+            $request->file('avatar')->move(public_path('images/profile_images/'), $filename);
+            $data['image']= $filename;
+            $data->save();
 
 
-            // $post->featured_image = $data['name'];
+            $user->avatar = $data['image'];
 
 
 
