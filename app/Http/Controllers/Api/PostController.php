@@ -58,22 +58,10 @@ class PostController extends Controller
 
         //handle upload image
         if ($request->hasFile('featured_image')) {
-            // $featuredImage = $request->file('featured_image');
-            // $fileName = time() . $featuredImage->getClientOriginalName();
-            // $path = url('/') . '/public/images/' . $fileName;
-            // $path = public_path('/images/');
-            // Storage::disk()->putFileAs(
-            //     $path,
-            //     $featuredImage,
-            //     $fileName
-            // );
-            // $post->featured_image = $path;
-
-
 
 
             $file= $request->file('featured_image');
-            $filename= public_path('images/').date('YmdHi').$file->getClientOriginalName();
+            $filename= env('APP_URL').'/images/'.date('YmdHi').$file->getClientOriginalName();
             $request->file('featured_image')->move(public_path('images'), $filename);
             $data['image']= $filename;
             $data->save();
@@ -145,22 +133,9 @@ class PostController extends Controller
 
         //handle upload image
         if ($request->hasFile('featured_image')) {
-            // $featuredImage = $request->file('featured_image');
-            // $fileName = time() . $featuredImage->getClientOriginalName();
-            // $path = url('/') . '/public/images/' . $fileName;
-            // $path = public_path('/images/');
-            // Storage::disk()->putFileAs(
-            //     $path,
-            //     $featuredImage,
-            //     $fileName
-            // );
-            // $post->featured_image = $path;
-
-
-
 
             $file= $request->file('featured_image');
-            $filename= public_path('images/').date('YmdHi').$file->getClientOriginalName();
+            $filename= env('APP_URL').'/images/'.date('YmdHi').$file->getClientOriginalName();
             $request->file('featured_image')->move(public_path('images'), $filename);
             $data['image']= $filename;
             $data->save();

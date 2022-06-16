@@ -95,22 +95,8 @@ class UserController extends Controller
           $data = new Postimage();
 
           if ($request->hasFile('avatar')) {
-            // $featuredImage = $request->file('avatar');
-            // $fileName = time() . $featuredImage->getClientOriginalName();
-            // $path = url('/') . '/public/images/' . $fileName;
-            // $path = public_path('/images/');
-            // Storage::disk()->putFileAs(
-            //     $path,
-            //     $featuredImage,
-            //     $fileName
-            // );
-            // $user->featured_image = $path;
-
-
-
-
             $file= $request->file('avatar');
-            $filename= public_path('images/profile_images/').date('YmdHi').$file->getClientOriginalName();
+            $filename= env('APP_URL').'/images/'.date('YmdHi').$file->getClientOriginalName();
             $request->file('avatar')->move(public_path('images/profile_images/'), $filename);
             $data['image']= $filename;
             $data->save();
