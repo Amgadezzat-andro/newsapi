@@ -96,7 +96,7 @@ class UserController extends Controller
 
           if ($request->hasFile('avatar')) {
             $file= $request->file('avatar');
-            $filename= env('APP_URL').'/images/'.date('YmdHi').$file->getClientOriginalName();
+            $filename= env('APP_URL').'/images/profile_images'.date('YmdHi').$file->getClientOriginalName();
             $request->file('avatar')->move(public_path('images/profile_images/'), $filename);
             $data['image']= $filename;
             $data->save();
